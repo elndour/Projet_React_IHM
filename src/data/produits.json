@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "name": "Huile d'Olive Vierge",
+    "category": "Épicerie fine",
+    "description": "Extraite à froid, origine Provence.",
+    "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5",
+    "price": 14.50,
+    "details": { "Nutriscore": "C", "Origine": "France", "Bio": "Oui" }
+  },
+  {
+    "id": "2",
+    "name": "Yaourt Nature",
+    "category": "Crèmerie",
+    "description": "Lait entier de brebis, onctueux.",
+    "image": "https://images.unsplash.com/photo-1571212518486-d82852ba26a8",
+    "price": 3.20,
+    "details": { "Nutriscore": "A", "Matière Grasse": "3.5%", "Bio": "Non" }
+  },
+  {
+    "id": "3",
+    "name": "Jus de Pomme Artisanal",
+    "category": "Boissons",
+    "description": "Pressé à froid, sans sucre ajouté.",
+    "image": "https://images.unsplash.com/photo-1601237305310-8484e5f76274",
+    "price": 5.80,
+    "details": { "Origine": "Normandie", "Bio": "Oui" }
+  }
+]
