@@ -1,10 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { itemSchema } from '../data/schema';
 
-const DataForm = ({ onSubmit }) => {
-  const [formBuffer, setFormBuffer] = useState({});
+const STORAGE_KEY = 'ihm_collection_form_draft';
+
+const getSavedForm = () => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+};
+
+const DataForm = ({ onSubmit, initialValues = {} }) => {
+  const savedDraft = getSavedForm();
+  const [formBuffer, setFormBuffer] = useState({ ...savedDraft, ...initialValues });
   const [errors, setErrors] = useState({});
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(initialValues.image || savedDraft.image || null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formBuffer));
+  }, [formBuffer]);
 
   const handleChange = (e) => {
     const { name, value, files, type } = e.target;
@@ -16,20 +33,17 @@ const DataForm = ({ onSubmit }) => {
         reader.onloadend = () => {
           const base64Data = reader.result;
           setPreview(base64Data);
-          
-          // ON FORCE LA MISE À JOUR ICI
           setFormBuffer(prev => ({ ...prev, [name]: base64Data }));
-          // ON EFFACE L'ERREUR IMMÉDIATEMENT
-          setErrors(prev => ({ ...prev, [name]: "" }));
-          console.log("Image chargée avec succès dans le champ :", name);
+          setErrors(prev => ({ ...prev, [name]: '' }));
         };
         reader.readAsDataURL(file);
       }
-    } else {
-      setFormBuffer(prev => ({ ...prev, [name]: value }));
-      if (errors[name]) {
-        setErrors(prev => ({ ...prev, [name]: "" }));
-      }
+      return;
+    }
+
+    setFormBuffer(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -49,57 +63,85 @@ const DataForm = ({ onSubmit }) => {
     console.log("Contenu actuel du formulaire avant envoi :", formBuffer);
 
     if (isValid) {
+      setIsSubmitting(true);
       onSubmit(formBuffer);
+      localStorage.removeItem(STORAGE_KEY);
+      setFormBuffer({});
+      setPreview(null);
+      setErrors({});
+      setIsSubmitting(false);
     } else {
       setErrors(newErrors);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container" style={{maxWidth: '500px', margin: 'auto'}}>
+    <form onSubmit={handleSubmit} className="form-container">
       {itemSchema.map((field) => (
-        <div key={field.name} className="form-group" style={{marginBottom: '20px', textAlign: 'center'}}>
-          <label style={{display: 'block', fontWeight: 'bold', marginBottom: '10px'}}>
-            {field.label} {field.required && "*"}
+        <div key={field.name} className="form-group">
+          <label htmlFor={field.name} className="form-label">
+            {field.label} {field.required && <span className="required-star">*</span>}
           </label>
-          
+
           {field.type === 'file' ? (
-            <div style={{border: '1px solid #ddd', padding: '10px', borderRadius: '8px'}}>
-              <input 
-                type="file" 
-                name={field.name} // IMPORTANT: Doit correspondre à "image" dans schema.js
-                accept="image/*" 
-                onChange={handleChange} 
+            <div className="file-input-wrapper">
+              <input
+                id={field.name}
+                type="file"
+                name={field.name}
+                accept="image/*"
+                onChange={handleChange}
+                className="form-input file-input"
               />
               {preview && (
-                <div style={{marginTop: '10px'}}>
-                  <img src={preview} alt="Aperçu" style={{width: '120px', borderRadius: '5px'}} />
+                <div className="preview-container">
+                  <img src={preview} alt="Aperçu produit" className="preview-image" />
                 </div>
               )}
             </div>
           ) : field.type === 'select' ? (
-            <select name={field.name} value={formBuffer[field.name] || ''} onChange={handleChange} style={{width: '100%', padding: '8px'}}>
+            <select
+              id={field.name}
+              name={field.name}
+              value={formBuffer[field.name] || ''}
+              onChange={handleChange}
+              className="form-select"
+            >
               <option value="">-- Sélectionner --</option>
-              {field.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              {field.options.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
             </select>
+          ) : field.type === 'textarea' ? (
+            <textarea
+              id={field.name}
+              name={field.name}
+              value={formBuffer[field.name] || ''}
+              onChange={handleChange}
+              placeholder={field.placeholder || ''}
+              className="form-textarea"
+              rows={5}
+            />
           ) : (
-            <input 
-              type={field.type} 
-              name={field.name} 
-              value={formBuffer[field.name] || ''} 
-              onChange={handleChange} 
-              style={{width: '100%', padding: '8px'}}
+            <input
+              id={field.name}
+              type={field.type}
+              name={field.name}
+              value={formBuffer[field.name] || ''}
+              onChange={handleChange}
+              placeholder={field.placeholder || ''}
+              className="form-input"
             />
           )}
 
           {errors[field.name] && (
-            <div style={{color: 'red', fontSize: '0.8rem', marginTop: '5px'}}>{errors[field.name]}</div>
+            <div className="error-message">{errors[field.name]}</div>
           )}
         </div>
       ))}
-      
-      <button type="submit" className="btn-submit" style={{width: '100%', padding: '12px', background: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>
-        Enregistrer le produit
+
+      <button type="submit" className="btn-submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Enregistrement...' : 'Enregistrer le produit'}
       </button>
     </form>
   );

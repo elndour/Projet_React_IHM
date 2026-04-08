@@ -1,29 +1,80 @@
 [
   {
     "id": "1",
-    "name": "Huile d'Olive Vierge",
-    "category": "Épicerie fine",
-    "description": "Extraite à froid, origine Provence.",
-    "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5",
-    "price": 14.50,
-    "details": { "Nutriscore": "C", "Origine": "France", "Bio": "Oui" }
+    "name": "Huile d'Olive Extra Vierge",
+    "category": "Huiles",
+    "description": "Huile d'olive de qualité supérieure, parfaite pour les vinaigrettes et la cuisson.",
+    "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400",
+    "price": 15.99,
+    "details": {
+      "nutriscore": "A",
+      "origine": "Italie",
+      "bio": "Oui"
+    }
   },
   {
     "id": "2",
-    "name": "Yaourt Nature",
-    "category": "Crèmerie",
-    "description": "Lait entier de brebis, onctueux.",
-    "image": "https://images.unsplash.com/photo-1571212518486-d82852ba26a8",
-    "price": 3.20,
-    "details": { "Nutriscore": "A", "Matière Grasse": "3.5%", "Bio": "Non" }
+    "name": "Pain de Campagne",
+    "category": "Boulangerie",
+    "description": "Pain traditionnel au levain, croustillant à l'extérieur et moelleux à l'intérieur.",
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400",
+    "price": 3.50,
+    "details": {
+      "nutriscore": "B",
+      "origine": "France",
+      "bio": "Non"
+    }
   },
   {
     "id": "3",
-    "name": "Jus de Pomme Artisanal",
+    "name": "Fromage de Chèvre",
+    "category": "Crèmerie",
+    "description": "Fromage frais au lait de chèvre, idéal pour les salades ou en dessert.",
+    "image": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400",
+    "price": 8.90,
+    "details": {
+      "nutriscore": "B",
+      "origine": "France",
+      "bio": "Oui"
+    }
+  },
+  {
+    "id": "4",
+    "name": "Jus de Grenade Bio",
     "category": "Boissons",
-    "description": "Pressé à froid, sans sucre ajouté.",
-    "image": "https://images.unsplash.com/photo-1601237305310-8484e5f76274",
-    "price": 5.80,
-    "details": { "Origine": "Normandie", "Bio": "Oui" }
+    "description": "Jus de grenade 100% pur, pressé à froid, riche en antioxydants.",
+    "image": "https://images.unsplash.com/photo-1601237305310-8484e5f76274?w=400",
+    "price": 6.50,
+    "details": {
+      "nutriscore": "A",
+      "origine": "Turquie",
+      "bio": "Oui"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Miel de Lavande",
+    "category": "Épicerie",
+    "description": "Miel artisanal récolté dans les champs de lavande provençaux.",
+    "image": "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400",
+    "price": 12.00,
+    "details": {
+      "nutriscore": "C",
+      "origine": "France",
+      "bio": "Oui"
+    }
+  },
+  {
+    "id": "6",
+    "name": "Tomates Cerises",
+    "category": "Fruits",
+    "description": "Tomates cerises juteuses et sucrées, cultivées en serre.",
+    "image": "https://images.unsplash.com/photo-1546470427-e75b6c3f5b4b?w=400",
+    "price": 4.20,
+    "details": {
+      "nutriscore": "A",
+      "origine": "Espagne",
+      "bio": "Non"
+    }
   }
 ]

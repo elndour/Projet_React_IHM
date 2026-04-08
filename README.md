@@ -1,47 +1,117 @@
 # Projet IHM GPHY 2025-2026 - AgroVitrine
 
 ## Membres de l'équipe
-- [Diop Serigne Mansour]
-- [Ndour El Hadji Fallou]
-- [Seckou Abdoulaye Maiga]
+- DIOP Serigne Mansour
+- NDOUR El Hadji Fallou
+- MAIGA Seckou Abdoulaye
 
 ## Présentation du projet
-Ce site vitrine présente une collection de produits agroalimentaires. L'architecture a été conçue pour être totalement générique : les composants font le rendu des données basées sur un schéma défini dans `src/data/schema.js`, permettant de changer de thème de collection sans modifier le code de structure.
+Ce projet est une application web vitrine pour une collection de produits agroalimentaires. Développée avec React et Vite, elle offre une interface utilisateur moderne et responsive permettant de consulter, ajouter, modifier et supprimer des produits. L'architecture est conçue pour être générique grâce à un système de schéma de données, permettant de changer facilement de thème de collection sans modifier le code structurel.
 
-## Fonctionnalités implémentées
-* **Affichage dynamique** : Grille de produits avec recherche en temps réel.
-* **CRUD complet** : Ajout et suppression d'éléments avec persistance via LocalStorage.
-* **Ergonomie** : 
-    * Validation de formulaire avec conservation des saisies en cas d'erreur.
-    * Gestion de la navigation (si on rafraîchit la page produit, on reste dessus).
-    * Interface responsive occupant tout l'espace écran.
+## Fonctionnalités principales
+- **Catalogue de produits** : Affichage en grille responsive avec recherche et navigation
+- **Gestion CRUD complète** : Création, lecture, mise à jour et suppression de produits
+- **Persistance des données** : Stockage local via LocalStorage
+- **Formulaires intelligents** : Validation en temps réel, conservation des brouillons, prévisualisation d'images
+- **Navigation persistante** : Utilisation de HashRouter pour maintenir l'état lors du rafraîchissement
+- **Interface responsive** : Optimisée pour desktop et mobile
+- **IHM optimisée** : Respect des heuristiques de Nielsen (visibilité système, contrôle utilisateur, prévention erreurs, etc.)
 
-## Comment lancer le projet
-1.  Extraire l'archive.
-2.  Lancer `npm install` dans le terminal.
-3.  Lancer `npm run dev`.
-4.  Ouvrir le lien local (ex: http://localhost:5173).
+## Technologies utilisées
+- **Frontend** : React 18 avec hooks
+- **Routing** : React Router (HashRouter)
+- **Styling** : CSS3 avec variables CSS et animations
+- **Build** : Vite
+- **Linting** : ESLint
+- **État** : Context API + LocalStorage
 
-## Architecture
-* `/src/components` : Composants réutilisables.
-* `/src/pages` : Vues principales (Catalogue, Création, Détails).
-* `/src/data` : Fichiers JSON et schémas de données.
+## Comment exécuter le projet
 
+### Prérequis
+- Node.js (version 16 ou supérieure)
+- npm ou yarn
 
+### Installation
+1. Clonez ou téléchargez le projet
+2. Ouvrez un terminal dans le dossier du projet
+3. Installez les dépendances :
+   ```bash
+   npm install
+   ```
 
-# React + Vite
+### Lancement en développement
+```bash
+npm run dev
+```
+L'application sera accessible sur `http://localhost:5173` (ou port suivant disponible).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Build pour production
+```bash
+npm run build
+```
+Les fichiers optimisés seront générés dans le dossier `dist`.
 
-Currently, two official plugins are available:
+### Linting
+```bash
+npm run lint
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Architecture du projet
 
-## React Compiler
+```
+src/
+├── components/           # Composants réutilisables
+│   ├── CollectionContext.jsx    # Contexte pour la gestion d'état
+│   ├── CollectionProvider.jsx   # Provider du contexte
+│   ├── DataForm.jsx            # Formulaire générique basé sur schéma
+│   ├── Header.jsx              # En-tête avec navigation
+│   ├── ItemCard.jsx            # Carte produit
+│   ├── Layout.jsx              # Layout principal
+│   └── ...
+├── pages/               # Pages principales
+│   ├── Catalog.jsx      # Page catalogue
+│   ├── Create.jsx       # Page création produit
+│   ├── Details.jsx      # Page détails produit
+│   └── Modify.jsx       # Page modification produit
+├── data/                # Données et schémas
+│   ├── produits.json    # Données initiales
+│   └── schema.js        # Schéma des formulaires
+├── App.jsx              # Composant racine
+├── App.css              # Styles principaux
+├── index.css            # Styles globaux
+└── main.jsx             # Point d'entrée
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Architecture technique
+- **Composants modulaires** : Séparation claire entre logique métier et présentation
+- **État centralisé** : Utilisation du Context API pour la gestion des produits
+- **Persistance** : LocalStorage pour la sauvegarde des données utilisateur
+- **Routing** : Navigation basée sur les URL avec gestion des paramètres
+- **Responsive design** : Media queries et flexbox/grid pour l'adaptation aux écrans
+- **Accessibilité** : Labels, focus states, et structure sémantique
 
-## Expanding the ESLint configuration
+## Fonctionnement de l'application
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Page d'accueil** : Catalogue des produits avec grille responsive
+2. **Création** : Formulaire pour ajouter un nouveau produit avec validation
+3. **Détails** : Vue détaillée d'un produit avec possibilité de modification/suppression
+4. **Modification** : Formulaire pré-rempli pour éditer un produit existant
+
+Toutes les données sont sauvegardées automatiquement dans le navigateur.
+
+## Conformité IHM
+L'application respecte les principes d'ergonomie web :
+- Visibilité de l'état du système
+- Correspondance entre le système et le monde réel
+- Contrôle et liberté de l'utilisateur
+- Cohérence et standards
+- Prévention des erreurs
+- Reconnaissance plutôt que mémorisation
+- Flexibilité et efficacité d'utilisation
+- Design esthétique et minimaliste
+- Aide à la reconnaissance et récupération d'erreurs
+- Aide et documentation
+
+---
+
+Développé dans le cadre du cours IHM GPHY 2025-2026

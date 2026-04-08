@@ -1,7 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import initialData from '../data/produits.json';
-
-export const CollectionContext = createContext();
+import { CollectionContext } from './CollectionContext';
 
 export const CollectionProvider = ({ children }) => {
   // Charger les données depuis localStorage ou JSON par défaut
@@ -24,11 +23,22 @@ export const CollectionProvider = ({ children }) => {
   const addItem = (item) => {
     const newItem = {
       ...item,
-      id: Date.now().toString(), // Génération d'un ID unique simple
-      price: parseFloat(item.price) || 0, // S'assurer que le prix est un nombre
-      details: {} // Structure par défaut pour les détails étendus
+      id: item.id || Date.now().toString(),
+      price: parseFloat(item.price) || 0,
+      details: item.details || {}
     };
     setItems((prevItems) => [...prevItems, newItem]);
+  };
+
+  // CRUD : Modifier un item par son ID
+  const updateItem = (id, updatedItem) => {
+    setItems((prevItems) =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...updatedItem, id, price: parseFloat(updatedItem.price) || 0, details: updatedItem.details || {} }
+          : item
+      )
+    );
   };
 
   // CRUD : Supprimer un item par son ID
@@ -37,7 +47,7 @@ export const CollectionProvider = ({ children }) => {
   };
 
   return (
-    <CollectionContext.Provider value={{ items, addItem, removeItem }}>
+    <CollectionContext.Provider value={{ items, addItem, updateItem, removeItem }}>
       {children}
     </CollectionContext.Provider>
   );

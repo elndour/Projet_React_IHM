@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { CollectionContext } from '../components/CollectionProvider';
-import { FaTrashAlt, FaArrowLeft, FaLeaf, FaInfoCircle } from 'react-icons/fa';
+import { useParams, useNavigate } from 'react-router-dom';
+import { CollectionContext } from '../components/CollectionContext';
+import { FaArrowLeft, FaTrashAlt } from 'react-icons/fa';
 
 const Details = () => {
   const { id } = useParams();
@@ -10,58 +10,74 @@ const Details = () => {
 
   const item = items.find(i => i.id === id);
 
-  if (!item) return <div className="error-msg">Produit introuvable.</div>;
+  if (!item) return <div className="details-wrapper">Produit non trouvé</div>;
+
+  const nutriColor = {
+    A: '#16a34a',
+    B: '#0ea5e9',
+    C: '#f59e0b',
+    D: '#f97316',
+    E: '#dc2626'
+  };
 
   return (
-    <div className="details-page">
-      <button onClick={() => navigate('/')} className="btn-back">
+    <div className="details-wrapper">
+      <button onClick={() => navigate('/')} className="btn-back-main">
         <FaArrowLeft /> Retour au catalogue
       </button>
 
-      <div className="details-card-main">
-        <div className="details-image-wrapper">
+      <div className="details-main-card">
+        <div className="details-visual">
           <img src={item.image} alt={item.name} />
-          <span className="details-badge">{item.category}</span>
         </div>
 
         <div className="details-content">
-          <h1>{item.name}</h1>
-          <p className="details-price-tag">{item.price.toFixed(2)} €</p>
-          
-          <div className="details-section">
-            <h3><FaInfoCircle /> Description</h3>
-            <p>{item.description || "Aucune description fournie pour ce produit."}</p>
+          <div>
+            <span className="product-category-tag">{item.category}</span>
+            <h1 className="product-title-detailed">{item.name}</h1>
+            <p className="product-price-detailed">{item.price.toFixed(2)} €</p>
           </div>
 
-          <div className="tech-sheet-box">
+          <div className="info-block">
+            <h3>Description</h3>
+            <p>{item.description || 'Pas de description.'}</p>
+          </div>
+
+          <div className="tech-sheet-block">
             <h3>Fiche technique</h3>
-            <ul className="tech-list">
+            <ul className="tech-sheet-list">
               <li>
-                <span className="label">Nutriscore :</span> 
-                <span className={`score score-${item.details?.nutriscore || 'none'}`}>
-                   {item.details?.nutriscore || 'Non renseigné'}
+                <strong>Nutriscore</strong>
+                <span className="detail-badge" style={{ background: nutriColor[item.details?.nutriscore] ? `${nutriColor[item.details?.nutriscore]}20` : '#e2e8f0', color: nutriColor[item.details?.nutriscore] || '#334155' }}>
+                  {item.details?.nutriscore || 'N/A'}
                 </span>
               </li>
               <li>
-                <span className="label">Origine :</span> 
-                <span>{item.details?.origine || 'France'}</span>
+                <strong>Origine</strong>
+                <span>{item.details?.origine || 'Non précisée'}</span>
               </li>
               <li>
-                <span className="label">Agriculture Bio :</span> 
-                <span>
-                  {item.details?.bio === 'Oui' ? 
-                    <><FaLeaf style={{color: '#27ae60'}} /> Oui</> : 'Non'}
-                </span>
+                <strong>Bio</strong>
+                <span>{item.details?.bio || 'Non'}</span>
               </li>
             </ul>
           </div>
 
-          <button 
-            onClick={() => { if(window.confirm("Supprimer ?")) { removeItem(item.id); navigate('/'); } }} 
-            className="btn-delete-full"
-          >
-            <FaTrashAlt /> Supprimer du catalogue
-          </button>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <button
+              className="btn-submit"
+              onClick={() => navigate(`/modifier/${item.id}`)}
+              style={{ flex: 1, minWidth: '150px' }}
+            >
+              Modifier le produit
+            </button>
+            <button
+              className="btn-danger-outline"
+              onClick={() => { if (window.confirm('Supprimer ce produit ?')) { removeItem(item.id); navigate('/'); } }}
+            >
+              <FaTrashAlt /> Supprimer le produit
+            </button>
+          </div>
         </div>
       </div>
     </div>

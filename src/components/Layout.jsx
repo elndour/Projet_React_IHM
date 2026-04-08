@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
         {children}
       </main>
       <footer className="main-footer">
-        <p>IHM GPHY 2025-2026 - Projet Vitrine - © NOM1 & NOM2</p>
+        <p>IHM GPHY 2025-2026 - Projet Vitrine - © DIOP & NDOUR & MAIGA</p>
       </footer>
     </div>
   );

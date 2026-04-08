@@ -13,7 +13,7 @@ export const itemSchema = [
     label: "Catégorie",
     type: "select",
     required: true,
-    options: ["Épicerie fine", "Crèmerie", "Boissons", "Frais", "Légumes"],
+    options: ["Épicerie fine", "Crèmerie", "Boissons", "Fruits", "Légumes", "Huiles"],
     error: "Veuillez choisir une catégorie."
   },
   {

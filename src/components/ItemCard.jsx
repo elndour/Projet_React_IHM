@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaEye, FaTag } from 'react-icons/fa';
+import { FaEye } from 'react-icons/fa';
 
 const ItemCard = ({ item }) => {
   return (
     <div className="item-card">
-      <div className="card-image">
-        <img src={item.image} alt={item.name} onError={(e) => e.target.src = 'https://via.placeholder.com/300?text=Pas d\'image'} />
-        <div className="card-category">{item.category}</div>
+      <div className="card-image-container">
+        <img src={item.image} alt={item.name} />
+        <span className="card-badge">{item.category}</span>
       </div>
       <div className="card-body">
         <h3>{item.name}</h3>
-        <p className="card-description">{item.description}</p>
+        <p>{item.description || "Aucune description disponible."}</p>
         <div className="card-footer">
-          <span className="card-price"><FaTag /> {item.price.toFixed(2)} €</span>
+          <span className="price-tag">{item.price.toFixed(2)} €</span>
           <Link to={`/produit/${item.id}`} className="btn-details">
-            <FaEye /> Voir les détails
+            <FaEye /> Voir détails
           </Link>
         </div>
       </div>
